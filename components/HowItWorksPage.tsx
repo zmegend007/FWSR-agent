@@ -9,19 +9,19 @@ interface Props {
 const HowItWorksPage: React.FC<Props> = ({ onStart, onSelectPlan }) => {
   return (
     <div className="bg-white min-h-screen">
-      <section className="py-32 px-8 bg-slate-50">
+      <section className="py-16 md:py-32 px-6 md:px-8 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <p className="text-technical text-red mb-6">Service Overview</p>
-          <h1 className="text-6xl md:text-8xl font-heading font-black uppercase tracking-tighter leading-tight mb-12">
+          <h1 className="text-4xl md:text-8xl font-heading font-black uppercase tracking-tighter leading-tight mb-8 md:mb-12">
             The Roadmap to <br /> <span className="text-slate-300 italic">2026.</span>
           </h1>
-          <p className="text-2xl text-slate-500 font-light leading-relaxed max-w-3xl">
+          <p className="text-lg md:text-2xl text-slate-500 font-light leading-relaxed max-w-3xl">
             Compliance with Berlin Fashion Week's 19 pillars is mandatory. We provide three levels of support depending on your internal resources.
           </p>
         </div>
       </section>
 
-      <section className="py-32 px-8">
+      <section className="py-16 md:py-32 px-6 md:px-8">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
 
           <div className="border-t-4 border-black pt-12">
