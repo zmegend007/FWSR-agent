@@ -11,6 +11,9 @@ import ResultPage from './components/ResultPage';
 import PaymentModal from './components/PaymentModal';
 import AuditorChat from './components/AuditorChat';
 import AuthModal from './components/AuthModal';
+import { TermsOfService } from './components/TermsOfService';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
+import { CookieConsent } from './components/CookieConsent';
 import { AppState, QuizResults } from './types';
 
 export type Plan = {
@@ -200,8 +203,23 @@ const AppContent: React.FC = () => {
         {state === 'landing' && <LandingPage onStart={() => selectPlanAndPay('survey')} onNavigate={navigate} onSelectPlan={selectPlanAndPay} />}
         {state === 'how-it-works' && <HowItWorksPage onStart={() => selectPlanAndPay('survey')} onSelectPlan={selectPlanAndPay} />}
         {state === 'standards' && <StandardsPage onStart={() => selectPlanAndPay('survey')} />}
-        {state === 'about' && <AboutPage />}
-        {state === 'news' && <NewsPage />}
+        {state === 'about' && (
+          <div className="max-w-4xl mx-auto px-6 py-24">
+            <h1 className="text-4xl font-heading font-black uppercase mb-8">About Us</h1>
+            <p className="text-xl text-slate-500 font-light leading-relaxed mb-8">
+              We are an independent consultancy of fashion industry experts, sustainability auditors, and legal compliance specialists.
+            </p>
+            <p className="text-lg text-slate-500 font-light leading-relaxed">
+              Our mission is to democratize access to high-level sustainability expertise, helping brands of all sizes navigate the complex requirements of Berlin Fashion Week.
+            </p>
+          </div>
+        )}
+        {state === 'news' && (
+          <div className="max-w-4xl mx-auto px-6 py-24">
+            <h1 className="text-4xl font-heading font-black uppercase mb-8">Latest Updates</h1>
+            <p className="text-slate-500">No recent news updates.</p>
+          </div>
+        )}
         {state === 'calculating' && <RiskCalculator onComplete={handleQuizComplete} />}
         {state === 'result' && results && (
           <ResultPage results={results} onFix={() => selectPlanAndPay('auditor')} />
@@ -214,6 +232,8 @@ const AppContent: React.FC = () => {
           />
         )}
         {state === 'chat' && <AuditorChat />}
+        {state === 'terms' && <TermsOfService onBack={() => navigate('landing')} />}
+        {state === 'privacy' && <PrivacyPolicy onBack={() => navigate('landing')} />}
       </main>
 
       {showAuthModal && (
@@ -244,9 +264,10 @@ const AppContent: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-technical mb-6">Legal</h3>
-                <ul className="text-[10px] font-black uppercase tracking-widest space-y-3">
-                  <li className="text-slate-400">Terms of Use</li>
-                  <li className="text-slate-400">Privacy Policy</li>
+                <ul className="space-y-4">
+                  <li><button onClick={() => navigate('privacy')} className="text-slate-500 hover:text-black transition-colors text-sm uppercase tracking-widest">Privacy Policy</button></li>
+                  <li><button onClick={() => navigate('terms')} className="text-slate-500 hover:text-black transition-colors text-sm uppercase tracking-widest">Terms of Service</button></li>
+                  <li><a href="mailto:legal@fashionweeksustainabilityrequirements.com" className="text-slate-500 hover:text-black transition-colors text-sm uppercase tracking-widest">Contact</a></li>
                 </ul>
               </div>
             </div>
@@ -257,6 +278,7 @@ const AppContent: React.FC = () => {
           </div>
         </footer>
       )}
+      <CookieConsent />
     </>
   );
 };

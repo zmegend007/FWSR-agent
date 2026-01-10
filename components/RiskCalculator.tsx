@@ -127,6 +127,12 @@ const RiskCalculator: React.FC<Props> = ({ onComplete }) => {
           </div>
         </div>
       </div>
+      <div className="mt-12 text-center max-w-2xl mx-auto">
+        <p className="text-[10px] text-slate-300 uppercase tracking-widest">
+          Disclaimer: This assessment is a preliminary check based on 2026 guidelines.
+          It does not guarantee official BFW acceptance. Consult a legal expert for binding advice.
+        </p>
+      </div>
     </div>
   );
 };

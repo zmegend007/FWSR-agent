@@ -1,5 +1,5 @@
 
-export type AppState = 'landing' | 'how-it-works' | 'news' | 'standards' | 'about' | 'calculating' | 'result' | 'payment' | 'chat';
+export type AppState = 'landing' | 'how-it-works' | 'news' | 'standards' | 'about' | 'calculating' | 'result' | 'payment' | 'chat' | 'terms' | 'privacy';
 
 export type ComplianceValue = 'yes' | 'no' | 'unsure';
 
