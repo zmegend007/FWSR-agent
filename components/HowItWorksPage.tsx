@@ -22,7 +22,7 @@ const HowItWorksPage: React.FC<Props> = ({ onStart, onSelectPlan }) => {
       </section>
 
       <section className="py-16 md:py-32 px-6 md:px-8">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12 text-center md:text-left">
 
           <div className="border-t-4 border-black pt-12">
             <div className="text-6xl font-heading font-black text-slate-100 mb-4">01</div>

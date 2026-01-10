@@ -31,7 +31,7 @@ const LandingPage: React.FC<Props> = ({ onStart, onNavigate, onSelectPlan }) => 
       <section className="relative h-[80vh] flex items-center px-6 bg-black overflow-hidden">
         <div className="absolute inset-0">
           {heroImage && <img src={heroImage} alt="" className="w-full h-full object-cover opacity-40 grayscale" />}
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
         </div>
 
         <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -39,7 +39,7 @@ const LandingPage: React.FC<Props> = ({ onStart, onNavigate, onSelectPlan }) => 
             <div className="inline-block px-3 py-1 border border-red text-red text-[10px] font-black uppercase tracking-[0.3em] mb-8">
               BFW 2026 Mandate
             </div>
-            <h1 className="text-4xl md:text-8xl font-heading font-black leading-tight md:leading-[0.9] tracking-tighter uppercase mb-6 md:mb-10 text-white">
+            <h1 className="font-heading font-black leading-tight md:leading-[0.9] tracking-tighter uppercase mb-6 md:mb-10 text-white" style={{ fontSize: 'clamp(2.5rem, 10vw, 6rem)' }}>
               Compliance <br /> <span className="italic text-red">Support.</span>
             </h1>
             <p className="text-base md:text-xl text-slate-300 font-light leading-relaxed mb-8 md:mb-12 max-w-xl">

@@ -21,7 +21,7 @@ const StandardsPage: React.FC<Props> = ({ onStart }) => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-24 border-b border-black/5 pb-8 md:pb-16">
           <p className="text-technical text-red mb-6">Technical Scope</p>
-          <h1 className="text-4xl md:text-[7rem] font-heading font-black uppercase tracking-tighter leading-tight md:leading-[0.85] mb-6 md:mb-12">
+          <h1 className="font-heading font-black uppercase tracking-tighter leading-tight md:leading-[0.85] mb-6 md:mb-12" style={{ fontSize: 'clamp(2rem, 8vw, 7rem)' }}>
             The 19 Pillars of <br /> <span className="text-slate-300 italic">Compliance.</span>
           </h1>
           <p className="text-lg md:text-2xl text-slate-500 font-light leading-relaxed max-w-3xl">

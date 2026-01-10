@@ -96,8 +96,8 @@ const AppContent: React.FC = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-[100] bg-white/95 backdrop-blur-md border-b border-black/5">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <nav className="fixed top-0 left-0 w-full z-[100] bg-white/95 backdrop-blur-md border-b border-black/5 h-16 md:h-20">
+        <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
           <div className="cursor-pointer flex items-center gap-4" onClick={() => navigate('landing')}>
             <span className="font-heading font-black text-2xl tracking-tighter uppercase">FWSR</span>
           </div>
@@ -196,7 +196,7 @@ const AppContent: React.FC = () => {
         </div>
       </nav>
 
-      <main className="pt-16 min-h-screen">
+      <main className="pt-16 md:pt-20 min-h-screen">
         {state === 'landing' && <LandingPage onStart={() => selectPlanAndPay('survey')} onNavigate={navigate} onSelectPlan={selectPlanAndPay} />}
         {state === 'how-it-works' && <HowItWorksPage onStart={() => selectPlanAndPay('survey')} onSelectPlan={selectPlanAndPay} />}
         {state === 'standards' && <StandardsPage onStart={() => selectPlanAndPay('survey')} />}
