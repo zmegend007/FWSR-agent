@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FWSR | Sustainability Compliance Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-red: #E60000;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .font-heading {
+            font-family: 'Bodoni Moda', serif;
+        }
+        .text-technical {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 0.7rem;
+        }
+        .text-red {
+            color: var(--brand-red);
+        }
+        .bg-red {
+            background-color: var(--brand-red);
+        }
+        .border-red {
+            border-color: var(--brand-red);
+        }
+        #root {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        main {
+            flex: 1 0 auto;
+        }
+        footer {
+            flex-shrink: 0;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        ::selection {
+            background: var(--brand-red);
+            color: #fff;
+        }
+
+        /* Staggered Entrance Animation */
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-reveal {
+            animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "@google/genai": "https://esm.sh/@google/genai@^1.35.0"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
