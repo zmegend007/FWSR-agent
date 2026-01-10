@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MINIMUM_STANDARDS } from '../data/standards';
 
 interface Props {
@@ -6,13 +6,23 @@ interface Props {
 }
 
 const StandardsPage: React.FC<Props> = ({ onStart }) => {
+  const [showFloatingCta, setShowFloatingCta] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowFloatingCta(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="bg-white min-h-screen pt-24 pb-24 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-24 border-b border-black/5 pb-16">
           <p className="text-technical text-red mb-6">Technical Scope</p>
           <h1 className="text-6xl md:text-[7rem] font-heading font-black uppercase tracking-tighter leading-[0.85] mb-12">
-            The 19 Pillars of <br/> <span className="text-slate-300 italic">Compliance.</span>
+            The 19 Pillars of <br /> <span className="text-slate-300 italic">Compliance.</span>
           </h1>
           <p className="text-xl md:text-2xl text-slate-500 font-light leading-relaxed max-w-3xl">
             These mandatory requirements form the basis of the 2026 Fashion Week sustainability mandate. Every brand <span className="text-black font-bold uppercase italic">MUST</span> demonstrate absolute adherence.
@@ -39,13 +49,24 @@ const StandardsPage: React.FC<Props> = ({ onStart }) => {
 
         <div className="mt-32 p-16 bg-black text-white text-center">
           <h2 className="text-4xl font-heading font-bold uppercase mb-8">Begin Technical Verification</h2>
-          <button 
+          <button
             onClick={onStart}
             className="bg-red text-white px-12 py-6 text-technical hover:bg-white hover:text-black transition-all"
           >
             Start Eligibility Survey
           </button>
         </div>
+      </div>
+
+      {/* Floating CTA */}
+      <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${showFloatingCta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}>
+        <button
+          onClick={onStart}
+          className="bg-black text-white px-8 py-4 text-technical hover:bg-red transition-all shadow-2xl flex items-center gap-4"
+        >
+          <span>Check My Eligibility</span>
+          <span className="text-red">→</span>
+        </button>
       </div>
     </div>
   );

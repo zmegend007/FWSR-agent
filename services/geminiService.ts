@@ -2,16 +2,18 @@
 import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_PROMPT } from "../constants";
 
+const GEMINI_API_KEY = 'AIzaSyD2ZWw3_uR041s5fh4vv7d6asD1fMzvRZY';
+
 export class GeminiService {
   private ai: GoogleGenAI;
 
   constructor() {
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    this.ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
   }
 
   // Complex task: Drafting and deep consultation
   async generateAuditorResponse(messages: { role: 'user' | 'model'; content: string }[]) {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: messages.map(m => ({
@@ -33,7 +35,7 @@ export class GeminiService {
 
   // Fast task: Explain a pillar on the landing page
   async explainPillar(pillarId: string, pillarTitle: string) {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Briefly explain the technical importance of Pillar ${pillarId}: ${pillarTitle} for a fashion brand applying to a major fashion week. Keep it under 60 words, focus on regulatory risk.`,
@@ -43,11 +45,11 @@ export class GeminiService {
 
   // Fast task: Real-time feedback during the 19-pillar audit
   async generateAuditFeedback(standardTitle: string, answer: string) {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
-    const prompt = answer === 'yes' 
+    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+    const prompt = answer === 'yes'
       ? `A brand claims they satisfy "${standardTitle}". Briefly state one technical document they MUST have ready to prove this.`
       : `A brand admits they FAIL "${standardTitle}". Briefly state the primary regulatory risk this creates for their Fashion Week application.`;
-    
+
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: prompt,
@@ -57,7 +59,7 @@ export class GeminiService {
 
   // Complex task: Executive summary for results page
   async generateExecutiveSummary(results: Record<string, string>, brandName: string) {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
     const prompt = `Based on these 19-pillar audit results for brand "${brandName}": ${JSON.stringify(results)}. 
     Write a 3-paragraph executive summary. 
     Para 1: Overall eligibility verdict. 
@@ -74,7 +76,7 @@ export class GeminiService {
   }
 
   async generateHeroBanner(prompt: string) {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
       contents: {

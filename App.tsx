@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { AuthProvider, useAuth } from './components/AuthContext';
 import LandingPage from './components/LandingPage';
 import HowItWorksPage from './components/HowItWorksPage';
 import NewsPage from './components/NewsPage';
@@ -9,6 +10,7 @@ import RiskCalculator from './components/RiskCalculator';
 import ResultPage from './components/ResultPage';
 import PaymentModal from './components/PaymentModal';
 import AuditorChat from './components/AuditorChat';
+import AuthModal from './components/AuthModal';
 import { AppState, QuizResults } from './types';
 
 export type Plan = {
@@ -23,10 +25,13 @@ const PLANS: Record<string, Plan> = {
   auditor: { id: 'auditor', name: 'The Auditor', price: 595 },
 };
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
+  const { user, loading, signOut } = useAuth();
   const [state, setState] = useState<AppState>('landing');
   const [results, setResults] = useState<QuizResults | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [pendingPlanId, setPendingPlanId] = useState<'survey' | 'chat' | 'auditor' | null>(null);
 
   const navigate = (newState: AppState) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -39,8 +44,23 @@ const App: React.FC = () => {
   };
 
   const selectPlanAndPay = (planId: 'survey' | 'chat' | 'auditor') => {
+    if (!user) {
+      // Require login before purchasing
+      setPendingPlanId(planId);
+      setShowAuthModal(true);
+      return;
+    }
     setSelectedPlan(PLANS[planId]);
     setState('payment');
+  };
+
+  const handleAuthSuccess = () => {
+    setShowAuthModal(false);
+    if (pendingPlanId) {
+      setSelectedPlan(PLANS[pendingPlanId]);
+      setState('payment');
+      setPendingPlanId(null);
+    }
   };
 
   const handlePaymentSuccess = () => {
@@ -52,6 +72,14 @@ const App: React.FC = () => {
   };
 
   const showFooter = !['calculating', 'chat', 'payment'].includes(state);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></span>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -66,12 +94,39 @@ const App: React.FC = () => {
             <button onClick={() => navigate('standards')} className={state === 'standards' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'}>19 Pillars</button>
             <button onClick={() => navigate('about')} className={state === 'about' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'}>About</button>
             <button onClick={() => navigate('news')} className={state === 'news' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'}>News</button>
-            <button 
-              onClick={() => selectPlanAndPay('survey')}
-              className="bg-black text-white px-5 py-2 hover:bg-red transition-all ml-4"
-            >
-              Verify Status
-            </button>
+
+            {user ? (
+              <div className="flex items-center gap-4 ml-4">
+                <span className="text-slate-400 normal-case">{user.email}</span>
+                <button
+                  onClick={() => signOut()}
+                  className="text-slate-400 hover:text-red transition-colors"
+                >
+                  Sign Out
+                </button>
+                <button
+                  onClick={() => selectPlanAndPay('survey')}
+                  className="bg-black text-white px-5 py-2 hover:bg-red transition-all"
+                >
+                  Verify Status
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4 ml-4">
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="text-slate-400 hover:text-black transition-colors"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => selectPlanAndPay('survey')}
+                  className="bg-black text-white px-5 py-2 hover:bg-red transition-all"
+                >
+                  Verify Status
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </nav>
@@ -87,14 +142,22 @@ const App: React.FC = () => {
           <ResultPage results={results} onFix={() => selectPlanAndPay('auditor')} />
         )}
         {state === 'payment' && selectedPlan && (
-          <PaymentModal 
+          <PaymentModal
             plan={selectedPlan}
-            onSuccess={handlePaymentSuccess} 
-            onCancel={() => navigate('landing')} 
+            onSuccess={handlePaymentSuccess}
+            onCancel={() => navigate('landing')}
           />
         )}
         {state === 'chat' && <AuditorChat />}
       </main>
+
+      {showAuthModal && (
+        <AuthModal
+          onClose={() => { setShowAuthModal(false); setPendingPlanId(null); }}
+          onSuccess={handleAuthSuccess}
+          defaultMode={pendingPlanId ? 'register' : 'login'}
+        />
+      )}
 
       {showFooter && (
         <footer className="bg-white py-20 px-6 mt-auto">
@@ -130,6 +193,14 @@ const App: React.FC = () => {
         </footer>
       )}
     </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 };
 

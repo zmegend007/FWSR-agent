@@ -3,16 +3,36 @@ import React, { useState } from 'react';
 import { QuizResults, ComplianceValue } from '../types';
 import { MINIMUM_STANDARDS } from '../data/standards';
 import { gemini } from '../services/geminiService';
+import { supabase } from '../services/supabaseClient';
+import { useAuth } from './AuthContext';
 
 interface Props {
   onComplete: (results: QuizResults) => void;
 }
 
 const RiskCalculator: React.FC<Props> = ({ onComplete }) => {
+  const { user } = useAuth();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<QuizResults>({});
   const [aiFeedback, setAiFeedback] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const saveResultsToDatabase = async (finalAnswers: QuizResults) => {
+    if (!user) return;
+
+    const compliant = Object.values(finalAnswers).filter(v => v === 'yes').length;
+    const score = Math.round((compliant / Object.keys(finalAnswers).length) * 100);
+
+    try {
+      await supabase.from('quiz_results').insert({
+        user_id: user.id,
+        results: finalAnswers,
+        score: score
+      });
+    } catch (error) {
+      console.error('Failed to save quiz results:', error);
+    }
+  };
 
   const handleAnswer = async (val: ComplianceValue) => {
     const currentStandard = MINIMUM_STANDARDS[step];
@@ -33,11 +53,13 @@ const RiskCalculator: React.FC<Props> = ({ onComplete }) => {
       setAiFeedback("This gap will be flagged as a critical risk in your final report.");
     }
 
-    setTimeout(() => {
+    setTimeout(async () => {
       setAiFeedback(null);
       if (step < MINIMUM_STANDARDS.length - 1) {
         setStep(step + 1);
       } else {
+        // Save to database before completing
+        await saveResultsToDatabase(newAnswers);
         onComplete(newAnswers);
       }
     }, 2500);
@@ -80,21 +102,21 @@ const RiskCalculator: React.FC<Props> = ({ onComplete }) => {
               </div>
             ) : (
               <div className="space-y-4">
-                <button 
+                <button
                   onClick={() => handleAnswer('yes')}
                   className="w-full p-8 bg-slate-50 border border-black/5 hover:bg-black hover:text-white transition-all text-left group"
                 >
                   <span className="text-xl font-heading font-bold uppercase">Requirement Met</span>
                   <p className="text-[10px] text-slate-400 mt-2 uppercase tracking-widest">Documents are ready</p>
                 </button>
-                <button 
+                <button
                   onClick={() => handleAnswer('no')}
                   className="w-full p-8 border border-black/5 hover:border-red hover:text-red transition-all text-left"
                 >
                   <span className="text-xl font-heading font-bold uppercase">Missing Documentation</span>
                   <p className="text-[10px] text-red-400 mt-2 uppercase tracking-widest">Action needed</p>
                 </button>
-                <button 
+                <button
                   onClick={() => handleAnswer('unsure')}
                   className="w-full p-8 bg-slate-100/50 border border-dashed border-black/10 hover:border-black transition-all text-left"
                 >

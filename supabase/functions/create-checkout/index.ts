@@ -1,0 +1,63 @@
+
+// Request from frontend to create a Stripe Checkout Session
+// For use with Supabase Edge Functions
+
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import Stripe from 'https://esm.sh/stripe@12.0.0?target=deno'
+
+const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') ?? '', {
+    apiVersion: '2022-11-15',
+    httpClient: Stripe.createFetchHttpClient(),
+})
+
+const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+serve(async (req) => {
+    if (req.method === 'OPTIONS') {
+        return new Response('ok', { headers: corsHeaders })
+    }
+
+    try {
+        const { planId, planName, planPrice, userId, userEmail } = await req.json()
+
+        // Create Stripe Checkout Session
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [
+                {
+                    price_data: {
+                        currency: 'eur',
+                        product_data: {
+                            name: `FWSR: ${planName}`,
+                            description: `Compliance Support for Berlin Fashion Week 2026`,
+                        },
+                        unit_amount: planPrice * 100, // Stripe expects amounts in cents
+                    },
+                    quantity: 1,
+                },
+            ],
+            mode: 'payment',
+            success_url: `${req.headers.get('origin')}/?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${req.headers.get('origin')}/`,
+            customer_email: userEmail,
+            client_reference_id: userId,
+            metadata: {
+                planId,
+                userId,
+            },
+        })
+
+        return new Response(JSON.stringify({ url: session.url }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 200,
+        })
+    } catch (error) {
+        return new Response(JSON.stringify({ error: error.message }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 400,
+        })
+    }
+})
