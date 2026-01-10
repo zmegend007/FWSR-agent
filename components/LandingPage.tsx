@@ -37,13 +37,15 @@ const LandingPage: React.FC<Props> = ({ onStart, onNavigate, onSelectPlan }) => 
         <div className="max-w-7xl mx-auto w-full relative z-10">
           <div className="max-w-3xl animate-reveal">
             <div className="inline-block px-3 py-1 border border-red text-red text-[10px] font-black uppercase tracking-[0.3em] mb-8">
-              BFW 2026 Mandate
+              Compliance Support
             </div>
             <h1 className="font-heading font-black leading-tight md:leading-[0.9] tracking-tighter uppercase mb-6 md:mb-10 text-white" style={{ fontSize: 'clamp(1.75rem, 8vw, 6rem)' }}>
               Compliance <br /> <span className="italic text-red">Support.</span>
             </h1>
             <p className="text-base md:text-xl text-slate-300 font-light leading-relaxed mb-8 md:mb-12 max-w-xl">
               Berlin Fashion Week 2026 requires every brand to meet the 19 Sustainability Pillars. Failure to comply results in exclusion from the official schedule.
+              <br /><br />
+              <span className="text-slate-500 text-sm">* We are an independent consultancy and not affiliated with Berlin Fashion Week.</span>
               <br /><br />
               Choose your compliance support level below.
             </p>

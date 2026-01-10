@@ -230,7 +230,7 @@ const AppContent: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-black/10 pb-12 mb-12">
               <div className="md:col-span-2">
                 <h2 className="font-heading font-bold text-2xl uppercase mb-4">Sustainability Requirements</h2>
-                <p className="text-sm text-slate-500 max-w-sm">The global compliance hub for Fashion Week. Independently operated by the FWSR Board.</p>
+                <p className="text-sm text-slate-500 max-w-sm">Specialized compliance support for Berlin Fashion Week applicants. Independent expert consultancy.</p>
               </div>
               <div>
                 <h3 className="text-technical mb-6">Explore</h3>
@@ -250,9 +250,9 @@ const AppContent: React.FC = () => {
                 </ul>
               </div>
             </div>
-            <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-300">
-              <p>© 2026 FWSR HUB</p>
-              <p>Official Compliance Resource</p>
+            <div className="flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-300 gap-4">
+              <p>© 2026 FWSR Consultancy</p>
+              <p>Independent Resource - Not Affiliated with BFW</p>
             </div>
           </div>
         </footer>
