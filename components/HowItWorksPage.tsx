@@ -26,7 +26,7 @@ const HowItWorksPage: React.FC<Props> = ({ onStart, onSelectPlan }) => {
 
           <div className="border-t-4 border-black pt-12">
             <div className="text-6xl font-heading font-black text-slate-100 mb-4">01</div>
-            <h3 className="text-2xl font-heading font-bold uppercase mb-6">Identify Gaps</h3>
+            <h3 className="text-xl font-heading font-bold uppercase mb-6">Identify Gaps</h3>
             <p className="text-slate-500 leading-relaxed mb-8">
               Our €19 assessment helps you determine exactly which standards you are failing. You receive a technical gap analysis that you can use as a roadmap for your internal team.
             </p>
@@ -40,7 +40,7 @@ const HowItWorksPage: React.FC<Props> = ({ onStart, onSelectPlan }) => {
 
           <div className="border-t-4 border-red pt-12">
             <div className="text-6xl font-heading font-black text-slate-100 mb-4">02</div>
-            <h3 className="text-2xl font-heading font-bold uppercase mb-6">Fix Documents</h3>
+            <h3 className="text-xl font-heading font-bold uppercase mb-6">Fix Documents</h3>
             <p className="text-slate-500 leading-relaxed mb-8">
               The €89 Workshop gives you access to our AI auditor. Upload your current drafts and receive specific technical instructions on how to amend them to meet the BFW requirements.
             </p>
@@ -54,7 +54,7 @@ const HowItWorksPage: React.FC<Props> = ({ onStart, onSelectPlan }) => {
 
           <div className="border-t-4 border-black pt-12 bg-black -m-4 p-8 md:p-12 text-white">
             <div className="text-6xl font-heading font-black text-white/10 mb-4">03</div>
-            <h3 className="text-2xl font-heading font-bold uppercase mb-6 italic">Full Management</h3>
+            <h3 className="text-xl font-heading font-bold uppercase mb-6 italic">Full Management</h3>
             <p className="text-slate-400 leading-relaxed mb-8">
               For brands without a dedicated sustainability manager. Our €595 Auditor service handles the entire drafting and verification process, preparing your final BFW submission dossier.
             </p>
