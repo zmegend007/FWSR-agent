@@ -9,7 +9,7 @@ export interface ChatMessage {
 }
 
 export interface QuizResults {
-  [key: string]: ComplianceValue;
+  [questionId: string]: string; // 'yes' | 'no' | 'partial'
 }
 
 export interface GroundingChunk {
