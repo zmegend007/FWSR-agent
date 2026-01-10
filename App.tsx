@@ -33,9 +33,12 @@ const AppContent: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [pendingPlanId, setPendingPlanId] = useState<'survey' | 'chat' | 'auditor' | null>(null);
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const navigate = (newState: AppState) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setState(newState);
+    setMobileMenuOpen(false);
   };
 
   const handleQuizComplete = (data: QuizResults) => {
@@ -52,6 +55,7 @@ const AppContent: React.FC = () => {
     }
     setSelectedPlan(PLANS[planId]);
     setState('payment');
+    setMobileMenuOpen(false);
   };
 
   const handleAuthSuccess = () => {
@@ -81,19 +85,26 @@ const AppContent: React.FC = () => {
     );
   }
 
+  const NavLinks = ({ mobile }: { mobile?: boolean }) => (
+    <>
+      <button onClick={() => navigate('how-it-works')} className={`${state === 'how-it-works' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-bold' : ''}`}>How it Works</button>
+      <button onClick={() => navigate('standards')} className={`${state === 'standards' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-bold' : ''}`}>19 Pillars</button>
+      <button onClick={() => navigate('about')} className={`${state === 'about' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-bold' : ''}`}>About</button>
+      <button onClick={() => navigate('news')} className={`${state === 'news' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-bold' : ''}`}>News</button>
+    </>
+  );
+
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-[100] bg-white/90 backdrop-blur-md border-b border-black/5">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <nav className="fixed top-0 left-0 w-full z-[100] bg-white/95 backdrop-blur-md border-b border-black/5">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="cursor-pointer flex items-center gap-4" onClick={() => navigate('landing')}>
-            <span className="font-heading font-black text-xl tracking-tighter uppercase">FWSR</span>
+            <span className="font-heading font-black text-2xl tracking-tighter uppercase">FWSR</span>
           </div>
 
-          <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-widest">
-            <button onClick={() => navigate('how-it-works')} className={state === 'how-it-works' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'}>How it Works</button>
-            <button onClick={() => navigate('standards')} className={state === 'standards' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'}>19 Pillars</button>
-            <button onClick={() => navigate('about')} className={state === 'about' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'}>About</button>
-            <button onClick={() => navigate('news')} className={state === 'news' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'}>News</button>
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8 text-[10px] font-black uppercase tracking-widest">
+            <NavLinks />
 
             {user ? (
               <div className="flex items-center gap-4 ml-4">
@@ -127,6 +138,60 @@ const AppContent: React.FC = () => {
                 </button>
               </div>
             )}
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 z-[110]"
+          >
+            <span className={`w-6 h-0.5 bg-black transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`w-6 h-0.5 bg-black transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`w-6 h-0.5 bg-black transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <div className={`fixed inset-0 bg-white z-[105] transition-transform duration-500 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
+          <div className="h-full flex flex-col p-12 pt-32">
+            <div className="flex flex-col gap-8 text-technical mb-12">
+              <NavLinks mobile />
+            </div>
+
+            <div className="mt-auto border-t border-black/10 pt-12">
+              {user ? (
+                <div className="flex flex-col gap-6">
+                  <span className="text-slate-400">{user.email}</span>
+                  <button
+                    onClick={() => signOut()}
+                    className="text-technical text-red text-left"
+                  >
+                    Sign Out
+                  </button>
+                  <button
+                    onClick={() => selectPlanAndPay('survey')}
+                    className="w-full bg-black text-white py-6 text-technical hover:bg-red transition-all"
+                  >
+                    Verify Status
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-6">
+                  <button
+                    onClick={() => setShowAuthModal(true)}
+                    className="text-technical text-left"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => selectPlanAndPay('survey')}
+                    className="w-full bg-black text-white py-6 text-technical hover:bg-red transition-all"
+                  >
+                    Verify Status
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>
