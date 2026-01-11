@@ -249,35 +249,48 @@ const AppContent: React.FC = () => {
       )}
 
       {showFooter && (
-        <footer className="bg-white py-20 px-6 mt-auto">
+        <footer className="bg-white py-12 px-6 mt-auto border-t border-black/5">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-black/10 pb-12 mb-12">
-              <div className="md:col-span-2">
-                <h2 className="font-heading font-bold text-2xl uppercase mb-4">Sustainability Requirements</h2>
-                <p className="text-sm text-slate-500 max-w-sm">Specialized compliance support for Berlin Fashion Week applicants. Independent expert consultancy.</p>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
+
+              {/* Brand & Disclaimer */}
+              <div className="max-w-md">
+                <h2 className="font-heading font-black text-xl uppercase mb-4 tracking-tighter">FWSR Consultancy</h2>
+                <div className="space-y-4">
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    Specialized compliance support for Berlin Fashion Week applicants.
+                  </p>
+                  <p className="text-xs text-slate-400 leading-relaxed border-l-2 border-red pl-3">
+                    DISCLAIMER: We are an independent consultancy and <span className="text-black font-bold">not affiliated</span> with Berlin Fashion Week.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-technical mb-6">Explore</h3>
-                <ul className="text-[10px] font-black uppercase tracking-widest space-y-3">
-                  <li><button onClick={() => navigate('landing')} className="hover:text-red">Home</button></li>
-                  <li><button onClick={() => navigate('how-it-works')} className="hover:text-red">How it Works</button></li>
-                  <li><button onClick={() => navigate('standards')} className="hover:text-red">19 Pillars</button></li>
-                  <li><button onClick={() => navigate('about')} className="hover:text-red">About</button></li>
-                  <li><button onClick={() => navigate('news')} className="hover:text-red">News</button></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-technical mb-6">Legal</h3>
-                <ul className="space-y-4">
-                  <li><button onClick={() => navigate('privacy')} className="text-slate-500 hover:text-black transition-colors text-sm uppercase tracking-widest">Privacy Policy</button></li>
-                  <li><button onClick={() => navigate('terms')} className="text-slate-500 hover:text-black transition-colors text-sm uppercase tracking-widest">Terms of Service</button></li>
-                  <li><a href="mailto:legal@fashionweeksustainabilityrequirements.com" className="text-slate-500 hover:text-black transition-colors text-sm uppercase tracking-widest">Contact</a></li>
-                </ul>
+
+              {/* Compact Links */}
+              <div className="flex flex-wrap gap-8 md:gap-16">
+                <div>
+                  <h3 className="text-[10px] font-black uppercase tracking-widest mb-4">Explore</h3>
+                  <ul className="space-y-2 text-xs text-slate-500">
+                    <li><button onClick={() => navigate('how-it-works')} className="hover:text-black transition-colors">How it Works</button></li>
+                    <li><button onClick={() => navigate('standards')} className="hover:text-black transition-colors">19 Pillars</button></li>
+                    <li><button onClick={() => navigate('news')} className="hover:text-black transition-colors">News</button></li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-[10px] font-black uppercase tracking-widest mb-4">Legal</h3>
+                  <ul className="space-y-2 text-xs text-slate-500">
+                    <li><button onClick={() => navigate('privacy')} className="hover:text-black transition-colors">Privacy</button></li>
+                    <li><button onClick={() => navigate('terms')} className="hover:text-black transition-colors">Terms</button></li>
+                    <li><a href="mailto:legal@fashionweeksustainabilityrequirements.com" className="hover:text-black transition-colors">Contact</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-300 gap-4">
+
+            {/* Copyright */}
+            <div className="mt-12 pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-slate-300 font-bold">
               <p>© 2026 FWSR Consultancy</p>
-              <p>Independent Resource - Not Affiliated with BFW</p>
+              <p>Berlin, Germany</p>
             </div>
           </div>
         </footer>
