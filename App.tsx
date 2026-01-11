@@ -1,20 +1,28 @@
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { AuthProvider, useAuth } from './components/AuthContext';
 import LandingPage from './components/LandingPage';
-import HowItWorksPage from './components/HowItWorksPage';
-import NewsPage from './components/NewsPage';
-import StandardsPage from './components/StandardsPage';
-import AboutPage from './components/AboutPage';
-import RiskCalculator from './components/RiskCalculator';
-import ResultPage from './components/ResultPage';
-import PaymentModal from './components/PaymentModal';
-import AuditorChat from './components/AuditorChat';
 import AuthModal from './components/AuthModal';
-import { TermsOfService } from './components/TermsOfService';
-import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { CookieConsent } from './components/CookieConsent';
 import { AppState, QuizResults } from './types';
+
+// Lazy Load heavy components
+const HowItWorksPage = React.lazy(() => import('./components/HowItWorksPage'));
+const NewsPage = React.lazy(() => import('./components/NewsPage'));
+const StandardsPage = React.lazy(() => import('./components/StandardsPage'));
+const AboutPage = React.lazy(() => import('./components/AboutPage'));
+const RiskCalculator = React.lazy(() => import('./components/RiskCalculator'));
+const ResultPage = React.lazy(() => import('./components/ResultPage'));
+const PaymentModal = React.lazy(() => import('./components/PaymentModal'));
+const AuditorChat = React.lazy(() => import('./components/AuditorChat'));
+
+// Lazy Load Legal Docs (named exports need special handling or default re-export, 
+// simplest here is to wrap them in a helper if they were default, 
+// but since they are named, we can use this pattern or change them to default.
+// For safety, let's stick to standard imports for small text components to avoid named-export friction 
+// unless we change their files. Actually, let's keep legal docs eager for now as they are small text.)
+import { TermsOfService } from './components/TermsOfService';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
 
 export type Plan = {
   id: 'survey' | 'chat' | 'auditor';
@@ -27,6 +35,12 @@ const PLANS: Record<string, Plan> = {
   chat: { id: 'chat', name: 'Knowledge Hub', price: 89 },
   auditor: { id: 'auditor', name: 'The Auditor', price: 595 },
 };
+
+const LoadingSpinner = () => (
+  <div className="min-h-[50vh] flex items-center justify-center">
+    <span className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></span>
+  </div>
+);
 
 const AppContent: React.FC = () => {
   const { user, loading, signOut } = useAuth();
@@ -200,38 +214,28 @@ const AppContent: React.FC = () => {
       </nav>
 
       <main className="pt-16 md:pt-20 min-h-screen">
-        {state === 'landing' && <LandingPage onStart={() => selectPlanAndPay('survey')} onNavigate={navigate} onSelectPlan={selectPlanAndPay} />}
-        {state === 'how-it-works' && <HowItWorksPage onStart={() => selectPlanAndPay('survey')} onSelectPlan={selectPlanAndPay} />}
-        {state === 'standards' && <StandardsPage onStart={() => selectPlanAndPay('survey')} />}
-        {state === 'about' && (
-          <div className="max-w-4xl mx-auto px-6 py-24">
-            <h1 className="text-4xl font-heading font-black uppercase mb-8">About Us</h1>
-            <p className="text-xl text-slate-500 font-light leading-relaxed mb-8">
-              We are an independent consultancy of fashion industry experts, sustainability auditors, and legal compliance specialists.
-            </p>
-            <p className="text-lg text-slate-500 font-light leading-relaxed">
-              Our mission is to democratize access to high-level sustainability expertise, helping brands of all sizes navigate the complex requirements of Berlin Fashion Week.
-            </p>
-          </div>
-        )}
-        {state === 'news' && (
-          <div className="max-w-4xl mx-auto px-6 py-24">
-            <h1 className="text-4xl font-heading font-black uppercase mb-8">Latest Updates</h1>
-            <p className="text-slate-500">No recent news updates.</p>
-          </div>
-        )}
-        {state === 'calculating' && <RiskCalculator onComplete={handleQuizComplete} />}
-        {state === 'result' && results && (
-          <ResultPage results={results} onFix={() => selectPlanAndPay('auditor')} />
-        )}
-        {state === 'payment' && selectedPlan && (
-          <PaymentModal
-            plan={selectedPlan}
-            onSuccess={handlePaymentSuccess}
-            onCancel={() => navigate('landing')}
-          />
-        )}
-        {state === 'chat' && <AuditorChat />}
+        <Suspense fallback={<LoadingSpinner />}>
+          {state === 'landing' && <LandingPage onStart={() => selectPlanAndPay('survey')} onNavigate={navigate} onSelectPlan={selectPlanAndPay} />}
+          {state === 'how-it-works' && <HowItWorksPage onStart={() => selectPlanAndPay('survey')} onSelectPlan={selectPlanAndPay} />}
+          {state === 'standards' && <StandardsPage onStart={() => selectPlanAndPay('survey')} />}
+          {state === 'about' && <AboutPage />}
+          {state === 'news' && <NewsPage />}
+
+          {state === 'calculating' && <RiskCalculator onComplete={handleQuizComplete} />}
+          {state === 'result' && results && (
+            <ResultPage results={results} onFix={() => selectPlanAndPay('auditor')} />
+          )}
+          {state === 'payment' && selectedPlan && (
+            <PaymentModal
+              plan={selectedPlan}
+              onSuccess={handlePaymentSuccess}
+              onCancel={() => navigate('landing')}
+            />
+          )}
+          {state === 'chat' && <AuditorChat />}
+        </Suspense>
+
+        {/* Legal pages are lightweight, kept eager for now to avoid named-export complexity in lazy load unless refactored */}
         {state === 'terms' && <TermsOfService onBack={() => navigate('landing')} />}
         {state === 'privacy' && <PrivacyPolicy onBack={() => navigate('landing')} />}
       </main>
