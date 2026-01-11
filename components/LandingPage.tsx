@@ -1,7 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AppState } from '../types';
-import { gemini } from '../services/geminiService';
 import { GlowingEffect } from './ui/glowing-effect';
 
 interface Props {
@@ -11,145 +10,172 @@ interface Props {
 }
 
 const LandingPage: React.FC<Props> = ({ onStart, onNavigate, onSelectPlan }) => {
-  const [heroImage, setHeroImage] = useState<string | null>(null);
   const [showReportPreview, setShowReportPreview] = useState(false);
-
-  useEffect(() => {
-    const fetchHero = async () => {
-      try {
-        const prompt = "Brutalist architecture, high fashion texture, deep shadows, monochromatic with red accents. Clean professional look. 4k.";
-        const img = await gemini.generateHeroBanner(prompt);
-        if (img) setHeroImage(img);
-      } catch (e) { }
-    };
-    fetchHero();
-  }, []);
 
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center px-6 bg-black overflow-hidden">
-        <div className="absolute inset-0">
-          {heroImage && <img src={heroImage} alt="" className="w-full h-full object-cover opacity-40 grayscale" />}
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
+      <section className="relative min-h-[90vh] flex items-center justify-center px-6 bg-black overflow-hidden py-24">
+        {/* Abstract Background - Premium Noise & Gradients */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-neutral-950"></div>
+          {/* Subtle noise texture */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+          {/* Gradient Mesh fallback/simple version */}
+          <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-red/10 blur-[120px] rounded-full mix-blend-screen animate-pulse duration-1000"></div>
+          <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-900/10 blur-[120px] rounded-full mix-blend-screen"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto w-full relative z-10">
-          <div className="max-w-3xl animate-reveal">
-            <div className="inline-block px-3 py-1 border border-red text-red text-[10px] font-black uppercase tracking-[0.3em] mb-4 md:mb-8">
-              Compliance Support
-            </div>
-            <h1 className="font-heading font-black leading-none tracking-tighter uppercase mb-4 md:mb-10 text-white" style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)' }}>
-              Compliance <br /> <span className="italic text-red">Support.</span>
+        <div className="max-w-7xl mx-auto w-full relative z-10 text-center flex flex-col items-center">
+          <div className="animate-reveal">
+            <h1 className="font-heading font-black leading-[0.9] tracking-tighter uppercase mb-8 text-white text-center mix-blend-difference" style={{ fontSize: 'clamp(3rem, 12vw, 9rem)' }}>
+              GET READY <br /> OR GET <span className="text-red">REJECTED</span>
             </h1>
-            <p className="text-sm md:text-xl text-slate-300 font-light leading-snug md:leading-relaxed mb-6 md:mb-12 max-w-xl">
-              Berlin Fashion Week 2026 requires every brand to meet the 19 Sustainability Pillars. Failure to comply results in exclusion from the official schedule.
-              <br /><br />
-              Choose your compliance support level below.
+            <p className="text-base md:text-xl text-slate-400 font-sans font-light leading-relaxed mb-12 max-w-2xl mx-auto tracking-wide">
+              Berlin Fashion Week 2026 mandates compliance with 19 Sustainability Pillars. <br className="hidden md:block" />
+              Brands without verified data will be excluded from the schedule.
             </p>
+
+            <button
+              onClick={() => {
+                const element = document.getElementById('offers');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group relative inline-flex items-center justify-center px-8 py-4 bg-transparent border border-white/20 text-white font-heading font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
+            >
+              Start Compliance Check
+            </button>
           </div>
         </div>
       </section>
 
       {/* Direct Offers Section */}
-      <section className="py-12 md:py-24 px-4 md:px-6 relative z-20">
+      <section id="offers" className="py-24 px-4 md:px-6 relative z-20 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 -mt-20 md:-mt-32">
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-3xl md:text-5xl font-heading font-black uppercase tracking-tighter mb-4">Choose Your Level</h2>
+            <div className="w-24 h-1 bg-red mx-auto"></div>
+          </div>
 
-            {/* Plan 1 */}
-            <div className="relative h-full rounded-sm border border-black/5 bg-white p-6 md:p-12 shadow-2xl flex flex-col justify-between overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+
+            {/* Plan 1: Self-Assessment */}
+            <div className="relative group bg-white border border-neutral-200 p-8 flex flex-col h-full hover:border-black transition-colors duration-300">
+              <div className="absolute inset-0 bg-neutral-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
-              <div className="relative z-10 flex flex-col justify-between h-full">
-                <div>
-                  <p className="text-technical text-slate-400 mb-2">Tier 1 / €19</p>
-                  <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8">Self-Assessment</h3>
-                  <p className="text-sm text-slate-500 font-light leading-relaxed mb-10">
-                    A technical check to identify which of the 19 standards you currently meet and where your documentation gaps are.
-                    Best for brands that just need a starting point.
+
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="mb-8">
+                  <h3 className="font-heading font-black text-2xl uppercase mb-2">Self-Assessment</h3>
+                  <p className="text-sm font-sans text-neutral-500 leading-relaxed min-h-[3rem]">
+                    For brands that need a starting point. Verify which pillars you meet instantly.
                   </p>
-                  <ul className="space-y-4 mb-12">
-                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                      <span className="w-4 h-[1px] bg-red"></span> Gap Analysis
-                    </li>
-                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                      <span className="w-4 h-[1px] bg-red"></span> Eligibility Report
-                    </li>
-                  </ul>
                 </div>
-                <div className="space-y-3">
+
+                <div className="mb-8 p-6 bg-neutral-50 border border-neutral-100 text-center group-hover:bg-white transition-colors">
+                  <span className="block text-xs font-heading uppercase tracking-widest text-neutral-400 mb-1">One-Time Fee</span>
+                  <span className="block text-5xl font-heading font-black tracking-tight">€19</span>
+                </div>
+
+                <ul className="space-y-4 mb-auto">
+                  {['Gap Analysis Report', 'Eligibility Score', 'PDF Verification'].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-xs font-heading uppercase tracking-wider text-black">
+                      <span className="w-1.5 h-1.5 bg-red rounded-full"></span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8 space-y-3">
                   <button
                     onClick={() => onSelectPlan('survey')}
-                    className="w-full py-6 bg-black text-white text-technical hover:bg-red transition-all"
+                    className="w-full py-4 bg-black text-white font-heading font-bold uppercase tracking-widest hover:bg-red transition-all duration-300 text-xs md:text-sm"
                   >
-                    Start Assessment
+                    Get Report
                   </button>
                   <button
                     onClick={() => setShowReportPreview(true)}
-                    className="w-full py-3 border border-black/10 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black hover:border-black transition-all"
+                    className="w-full py-3 text-xs font-heading font-bold uppercase tracking-widest text-neutral-400 hover:text-black underline decoration-1 underline-offset-4 decoration-transparent hover:decoration-black transition-all"
                   >
-                    Preview Sample Report
+                    Preview Sample
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Plan 2 */}
-            <div className="relative h-full rounded-sm border border-black/5 bg-slate-50 p-6 md:p-12 shadow-2xl flex flex-col justify-between overflow-hidden">
+            {/* Plan 2: Workshop */}
+            <div className="relative group bg-neutral-50 border border-neutral-200 p-8 flex flex-col h-full hover:border-black transition-colors duration-300">
               <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
-              <div className="relative z-10 flex flex-col justify-between h-full">
-                <div>
-                  <p className="text-technical text-red mb-2">Tier 2 / €89</p>
-                  <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8">Compliance Workshop</h3>
-                  <p className="text-sm text-slate-500 font-light leading-relaxed mb-8 md:mb-10">
-                    Interactive workspace with our Auditor. Upload your current documents and receive real-time technical feedback on how to fix them for the 2026 cycle.
+
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="mb-8">
+                  <h3 className="font-heading font-black text-2xl uppercase mb-2">Workspace</h3>
+                  <p className="text-sm font-sans text-neutral-500 leading-relaxed min-h-[3rem]">
+                    Interactive tools to fix documentation gaps with real-time feedback.
                   </p>
-                  <ul className="space-y-4 mb-8 md:mb-12">
-                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                      <span className="w-4 h-[1px] bg-red"></span> AI Auditor Access
-                    </li>
-                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                      <span className="w-4 h-[1px] bg-red"></span> Document Reviews
-                    </li>
-                  </ul>
                 </div>
-                <button
-                  onClick={() => onSelectPlan('chat')}
-                  className="w-full py-6 border border-black text-technical hover:bg-black hover:text-white transition-all"
-                >
-                  Access Workspace
-                </button>
+
+                <div className="mb-8 p-6 bg-white border border-neutral-100 text-center">
+                  <span className="block text-xs font-heading uppercase tracking-widest text-red mb-1">Best Value</span>
+                  <span className="block text-5xl font-heading font-black tracking-tight text-neutral-900">€89</span>
+                </div>
+
+                <ul className="space-y-4 mb-auto">
+                  {['AI Auditor Analysis', 'Document Reviews', 'Fix-It Guides'].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-xs font-heading uppercase tracking-wider text-black">
+                      <span className="w-1.5 h-1.5 bg-red rounded-full"></span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8">
+                  <button
+                    onClick={() => onSelectPlan('chat')}
+                    className="w-full py-4 border-2 border-black text-black font-heading font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300 text-xs md:text-sm"
+                  >
+                    Enter Workspace
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Plan 3 */}
-            <div className="relative h-full rounded-sm border-t-4 border-t-red border-black/5 bg-black text-white p-6 md:p-12 shadow-2xl flex flex-col justify-between overflow-hidden">
+            {/* Plan 3: Auditor */}
+            <div className="relative group bg-black text-white p-8 flex flex-col h-full overflow-hidden">
+              <div className="absolute inset-0 bg-red/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              {/* Custom white glow for black card */}
+              <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} variant="default" />
 
-              {/* Note: GlowingEffect might need 'variant="white"' or custom css for black bg clarity, trying default first */}
-              <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
-
-              <div className="relative z-10 flex flex-col justify-between h-full">
-                <div>
-                  <p className="text-technical text-red mb-2">Tier 3 / €595</p>
-                  <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8 italic">Full Managed Audit</h3>
-                  <p className="text-sm text-slate-400 font-light leading-relaxed mb-8 md:mb-10">
-                    We handle the entire dossier preparation. Our system drafts your Social CoCs, Material Lists, and RSLs to ensure 100% acceptance.
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="mb-8">
+                  <h3 className="font-heading font-black text-2xl uppercase mb-2 text-white italic">Full Audit</h3>
+                  <p className="text-sm font-sans text-neutral-400 leading-relaxed min-h-[3rem]">
+                    We draft every policy and document for you. 100% Guaranteed Acceptance.
                   </p>
-                  <ul className="space-y-4 mb-8 md:mb-12">
-                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                      <span className="w-4 h-[1px] bg-red"></span> Full Policy Drafting
-                    </li>
-                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                      <span className="w-4 h-[1px] bg-red"></span> Guaranteed Compliance
-                    </li>
-                  </ul>
                 </div>
-                <button
-                  onClick={() => onSelectPlan('auditor')}
-                  className="w-full py-6 bg-red text-white text-technical hover:bg-white hover:text-black transition-all"
-                >
-                  Hire Auditor
-                </button>
+
+                <div className="mb-8 p-6 bg-neutral-900 border border-neutral-800 text-center group-hover:border-red/30 transition-colors">
+                  <span className="block text-xs font-heading uppercase tracking-widest text-white/50 mb-1">Full Service</span>
+                  <span className="block text-5xl font-heading font-black tracking-tight">€595</span>
+                </div>
+
+                <ul className="space-y-4 mb-auto">
+                  {['Policy Drafting (All 19 Pillars)', 'Supply Chain Verification', 'Guaranteed Pass'].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-xs font-heading uppercase tracking-wider text-white">
+                      <span className="w-1.5 h-1.5 bg-red rounded-full"></span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8">
+                  <button
+                    onClick={() => onSelectPlan('auditor')}
+                    className="w-full py-4 bg-red text-white font-heading font-bold uppercase tracking-widest hover:bg-white hover:text-red transition-all duration-300 text-xs md:text-sm"
+                  >
+                    Hire Auditor
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -159,107 +185,78 @@ const LandingPage: React.FC<Props> = ({ onStart, onNavigate, onSelectPlan }) => 
 
       {/* Sample Report Preview Modal */}
       {showReportPreview && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 md:p-6 overflow-y-auto">
-          <div className="bg-white max-w-4xl w-full shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] my-4 md:my-8 overflow-hidden rounded-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 md:p-6 overflow-y-auto">
+          <div className="bg-white max-w-4xl w-full shadow-2xl my-4 md:my-8 overflow-hidden rounded-sm animate-reveal">
             <div className="p-6 md:p-12 max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-start mb-8">
                 <div>
-                  <div className="inline-block px-4 py-1.5 bg-red text-white text-[10px] font-black uppercase tracking-[0.3em] mb-4">
+                  <div className="inline-block px-3 py-1 bg-red text-white text-[10px] font-heading uppercase tracking-[0.2em] mb-2">
                     Sample Output
                   </div>
-                  <h2 className="text-3xl font-heading font-extrabold uppercase tracking-tighter">
-                    Eligibility Report Preview
+                  <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight">
+                    Eligibility Report
                   </h2>
                 </div>
-                <button onClick={() => setShowReportPreview(false)} className="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-black transition-all hover:rotate-90">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" />
+                <button onClick={() => setShowReportPreview(false)} className="group p-2">
+                  <svg className="w-6 h-6 text-neutral-400 group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
 
               {/* Sample Report Content */}
-              <div className="border border-black/10 p-8 mb-8 bg-slate-50">
-                <div className="flex justify-between items-start mb-6">
+              <div className="border border-neutral-200 p-8 mb-8 bg-neutral-50">
+                <div className="flex justify-between items-end mb-6">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Brand Assessment</p>
-                    <p className="text-xl font-heading font-bold uppercase">Sample Fashion Co.</p>
+                    <h4 className="font-heading font-bold uppercase text-lg">Sample Brand Ltd.</h4>
+                    <p className="text-xs font-heading uppercase text-neutral-400 tracking-wider">Audit Date: 12.01.2026</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Score</p>
-                    <p className="text-3xl font-heading font-black text-red">47%</p>
+                    <div className="text-4xl font-heading font-black text-red">47%</div>
+                    <p className="text-[10px] font-heading uppercase text-neutral-400 tracking-widest">Compliance Score</p>
                   </div>
                 </div>
-                <div className="w-full h-2 bg-slate-200 mb-6">
+                <div className="w-full h-1 bg-neutral-200 mb-6">
                   <div className="h-full bg-red" style={{ width: '47%' }}></div>
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-red mb-2">Eligibility Status: AT RISK</p>
-                <p className="text-sm text-slate-500">9 of 19 pillars satisfied. Critical gaps identified in materials, supply chain, and documentation.</p>
-              </div>
 
-              {/* Sample Breakdown */}
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                <div className="bg-black text-white p-6 text-center">
-                  <p className="text-3xl font-heading font-black mb-1">9</p>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Compliant</p>
-                </div>
-                <div className="bg-red text-white p-6 text-center">
-                  <p className="text-3xl font-heading font-black mb-1">7</p>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-white/70">Missing</p>
-                </div>
-                <div className="bg-slate-200 p-6 text-center">
-                  <p className="text-3xl font-heading font-black mb-1">3</p>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Unclear</p>
-                </div>
-              </div>
-
-              {/* Sample Critical Gaps */}
-              <div className="mb-8">
-                <p className="text-[10px] font-black uppercase tracking-widest text-red mb-4">Critical Gaps Identified</p>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-4 p-4 bg-red/5 border-l-4 border-red">
-                    <span className="text-red font-black">07</span>
-                    <span className="text-sm">60% Certified Fiber Threshold — Missing material certificates</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <h5 className="font-heading font-bold uppercase text-xs tracking-widest mb-4 border-b border-neutral-200 pb-2">Critical Gaps</h5>
+                    <ul className="space-y-2">
+                      <li className="text-sm font-sans flex items-start gap-2">
+                        <span className="text-red font-bold">×</span>
+                        <span className="text-neutral-600">Missing RSL (Restricted Substances List)</span>
+                      </li>
+                      <li className="text-sm font-sans flex items-start gap-2">
+                        <span className="text-red font-bold">×</span>
+                        <span className="text-neutral-600">Tier 2 Supplier Map Incomplete</span>
+                      </li>
+                    </ul>
                   </div>
-                  <div className="flex items-center gap-4 p-4 bg-red/5 border-l-4 border-red">
-                    <span className="text-red font-black">08</span>
-                    <span className="text-sm">REACH-Compliant RSL — No restricted substances list provided</span>
-                  </div>
-                  <div className="flex items-center gap-4 p-4 bg-red/5 border-l-4 border-red">
-                    <span className="text-red font-black">10</span>
-                    <span className="text-sm">Supplier Code of Conduct — Not shared with supply chain</span>
+                  <div>
+                    <h5 className="font-heading font-bold uppercase text-xs tracking-widest mb-4 border-b border-neutral-200 pb-2">Auditor Notes</h5>
+                    <p className="text-sm font-sans text-neutral-600 italic leading-relaxed">
+                      "The brand fails to meet the 60% certified materials threshold required for Pillar 4. Immediate collection of GOTS/GRS certificates is needed."
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* AI Summary Preview */}
-              <div className="bg-black text-white p-8 mb-8">
-                <p className="text-[10px] font-black uppercase tracking-widest text-red mb-4">AI Auditor Summary</p>
-                <p className="text-sm text-slate-300 leading-relaxed italic">
-                  "Based on your assessment, Sample Fashion Co. is currently ineligible for the 2026 Berlin Fashion Week schedule. The primary concerns are material certification gaps and missing supply chain documentation. Immediate action is required on Pillars 07, 08, and 10 to achieve minimum compliance..."
-                </p>
+              <div className="bg-black text-white p-8 text-center">
+                <h3 className="font-heading font-bold uppercase text-xl mb-2">Ready to check your brand?</h3>
+                <p className="text-neutral-400 text-sm mb-6">Get your personalized gap analysis in 3 minutes.</p>
+                <button
+                  onClick={() => { setShowReportPreview(false); onSelectPlan('survey'); }}
+                  className="inline-block bg-red text-white px-8 py-3 font-heading font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors"
+                >
+                  Start Assessment — €19
+                </button>
               </div>
-
-              <button
-                onClick={() => { setShowReportPreview(false); onSelectPlan('survey'); }}
-                className="w-full py-6 bg-black text-white text-technical hover:bg-red transition-all"
-              >
-                Get Your Report — €19
-              </button>
             </div>
           </div>
         </div>
       )}
-
-      {/* Simple Problem Section */}
-      <section className="py-16 md:py-32 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-heading font-black uppercase mb-4 md:mb-8">No Documentation, No Show.</h2>
-          <p className="text-lg md:text-xl text-slate-500 font-light leading-relaxed">
-            Since the 2024 pilot, compliance is now verified by the FWSR Board. Brands that cannot prove Tier 4 transparency and 60% certified material volume will not be considered for the official schedule.
-          </p>
-        </div>
-      </section>
     </div>
   );
 };

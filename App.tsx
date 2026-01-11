@@ -104,10 +104,10 @@ const AppContent: React.FC = () => {
 
   const NavLinks = ({ mobile }: { mobile?: boolean }) => (
     <>
-      <button onClick={() => navigate('how-it-works')} className={`${state === 'how-it-works' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-bold' : ''}`}>How it Works</button>
-      <button onClick={() => navigate('standards')} className={`${state === 'standards' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-bold' : ''}`}>19 Pillars</button>
-      <button onClick={() => navigate('about')} className={`${state === 'about' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-bold' : ''}`}>About</button>
-      <button onClick={() => navigate('news')} className={`${state === 'news' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-bold' : ''}`}>News</button>
+      <button onClick={() => navigate('how-it-works')} className={`${state === 'how-it-works' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-black' : 'font-heading font-bold'} uppercase tracking-widest`}>How it Works</button>
+      <button onClick={() => navigate('standards')} className={`${state === 'standards' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-black' : 'font-heading font-bold'} uppercase tracking-widest`}>19 Pillars</button>
+      <button onClick={() => navigate('about')} className={`${state === 'about' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-black' : 'font-heading font-bold'} uppercase tracking-widest`}>About</button>
+      <button onClick={() => navigate('news')} className={`${state === 'news' ? 'text-red underline underline-offset-4' : 'text-slate-400 hover:text-black transition-colors'} ${mobile ? 'text-2xl font-black' : 'font-heading font-bold'} uppercase tracking-widest`}>News</button>
     </>
   );
 
@@ -120,36 +120,36 @@ const AppContent: React.FC = () => {
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8 text-[10px] font-black uppercase tracking-widest">
+          <div className="hidden md:flex items-center gap-8 text-[11px]">
             <NavLinks />
 
             {user ? (
-              <div className="flex items-center gap-4 ml-4">
-                <span className="text-slate-400 normal-case">{user.email}</span>
+              <div className="flex items-center gap-6 ml-4 border-l border-black/10 pl-6">
+                <span className="text-slate-400 font-sans text-xs">{user.email}</span>
                 <button
                   onClick={() => signOut()}
-                  className="text-slate-400 hover:text-red transition-colors"
+                  className="font-heading font-bold uppercase tracking-widest text-slate-400 hover:text-red transition-colors text-[10px]"
                 >
                   Sign Out
                 </button>
                 <button
                   onClick={() => selectPlanAndPay('survey')}
-                  className="bg-black text-white px-5 py-2 hover:bg-red transition-all"
+                  className="bg-black text-white px-6 py-2.5 font-heading font-bold uppercase tracking-widest hover:bg-red transition-all text-[10px]"
                 >
                   Verify Status
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-4 ml-4">
+              <div className="flex items-center gap-6 ml-4 border-l border-black/10 pl-6">
                 <button
                   onClick={() => setShowAuthModal(true)}
-                  className="text-slate-400 hover:text-black transition-colors"
+                  className="font-heading font-bold uppercase tracking-widest text-slate-400 hover:text-black transition-colors text-[10px]"
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => selectPlanAndPay('survey')}
-                  className="bg-black text-white px-5 py-2 hover:bg-red transition-all"
+                  className="bg-black text-white px-6 py-2.5 font-heading font-bold uppercase tracking-widest hover:bg-red transition-all text-[10px]"
                 >
                   Verify Status
                 </button>
@@ -180,7 +180,7 @@ const AppContent: React.FC = () => {
           style={{ backgroundColor: '#ffffff' }}
         >
           <div className="flex-1 flex flex-col p-8 overflow-y-auto">
-            <div className="flex flex-col gap-6 text-technical mb-12">
+            <div className="flex flex-col gap-6 font-heading mb-12">
               <NavLinks mobile />
             </div>
 
@@ -190,13 +190,13 @@ const AppContent: React.FC = () => {
                   <span className="text-xs text-slate-400 font-mono text-center mb-2">{user.email}</span>
                   <button
                     onClick={() => signOut()}
-                    className="w-full py-4 border border-black/10 text-technical text-red hover:bg-red/5 active:scale-95 transition-all"
+                    className="w-full py-4 border border-black/10 font-heading font-bold uppercase tracking-widest text-red hover:bg-red/5 active:scale-95 transition-all text-xs"
                   >
                     Sign Out
                   </button>
                   <button
                     onClick={() => selectPlanAndPay('survey')}
-                    className="w-full bg-black text-white py-4 text-technical hover:bg-red active:scale-95 transition-all"
+                    className="w-full bg-black text-white py-4 font-heading font-bold uppercase tracking-widest hover:bg-red active:scale-95 transition-all text-xs"
                   >
                     Verify Status
                   </button>
@@ -205,13 +205,13 @@ const AppContent: React.FC = () => {
                 <div className="flex flex-col gap-4">
                   <button
                     onClick={() => setShowAuthModal(true)}
-                    className="w-full py-4 border border-black/10 text-technical hover:bg-black/5 active:scale-95 transition-all"
+                    className="w-full py-4 border border-black/10 font-heading font-bold uppercase tracking-widest hover:bg-black/5 active:scale-95 transition-all text-xs"
                   >
                     Sign In
                   </button>
                   <button
                     onClick={() => selectPlanAndPay('survey')}
-                    className="w-full bg-black text-white py-4 text-technical hover:bg-red active:scale-95 transition-all"
+                    className="w-full bg-black text-white py-4 font-heading font-bold uppercase tracking-widest hover:bg-red active:scale-95 transition-all text-xs"
                   >
                     Verify Status
                   </button>
@@ -268,10 +268,10 @@ const AppContent: React.FC = () => {
               <div className="max-w-md">
                 <h2 className="font-heading font-black text-xl uppercase mb-4 tracking-tighter">FWSR Consultancy</h2>
                 <div className="space-y-4">
-                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed font-sans">
                     Specialized compliance support for Berlin Fashion Week applicants.
                   </p>
-                  <p className="text-xs text-slate-400 leading-relaxed border-l-2 border-red pl-3">
+                  <p className="text-xs text-slate-400 leading-relaxed border-l-2 border-red pl-3 font-sans">
                     DISCLAIMER: We are an independent consultancy and <span className="text-black font-bold">not affiliated</span> with Berlin Fashion Week.
                   </p>
                 </div>
@@ -280,16 +280,16 @@ const AppContent: React.FC = () => {
               {/* Compact Links */}
               <div className="flex flex-wrap gap-8 md:gap-16">
                 <div>
-                  <h3 className="text-[10px] font-black uppercase tracking-widest mb-4">Explore</h3>
-                  <ul className="space-y-2 text-xs text-slate-500">
+                  <h3 className="font-heading font-bold uppercase tracking-widest mb-4 text-[10px]">Explore</h3>
+                  <ul className="space-y-2 text-xs text-slate-500 font-heading tracking-wide uppercase">
                     <li><button onClick={() => navigate('how-it-works')} className="hover:text-black transition-colors">How it Works</button></li>
                     <li><button onClick={() => navigate('standards')} className="hover:text-black transition-colors">19 Pillars</button></li>
                     <li><button onClick={() => navigate('news')} className="hover:text-black transition-colors">News</button></li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-[10px] font-black uppercase tracking-widest mb-4">Legal</h3>
-                  <ul className="space-y-2 text-xs text-slate-500">
+                  <h3 className="font-heading font-bold uppercase tracking-widest mb-4 text-[10px]">Legal</h3>
+                  <ul className="space-y-2 text-xs text-slate-500 font-heading tracking-wide uppercase">
                     <li><button onClick={() => navigate('privacy')} className="hover:text-black transition-colors">Privacy</button></li>
                     <li><button onClick={() => navigate('terms')} className="hover:text-black transition-colors">Terms</button></li>
                     <li><a href="mailto:legal@fashionweeksustainabilityrequirements.com" className="hover:text-black transition-colors">Contact</a></li>
@@ -299,7 +299,7 @@ const AppContent: React.FC = () => {
             </div>
 
             {/* Copyright */}
-            <div className="mt-12 pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-slate-300 font-bold">
+            <div className="mt-12 pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-slate-300 font-bold font-heading">
               <p>© 2026 FWSR Consultancy</p>
               <p>Berlin, Germany</p>
             </div>
