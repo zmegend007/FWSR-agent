@@ -168,41 +168,50 @@ const AppContent: React.FC = () => {
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-white z-[105] transition-transform duration-500 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
-          <div className="h-full flex flex-col p-12 pt-32">
-            <div className="flex flex-col gap-8 text-technical mb-12">
+        {/* Mobile Menu Backdrop */}
+        <div
+          className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] transition-opacity duration-300 md:hidden ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+
+        {/* Mobile Menu Drawer */}
+        <div
+          className={`fixed top-16 right-0 bottom-0 w-[85%] max-w-[300px] bg-[#ffffff] z-[100] border-l border-black/10 shadow-3xl transition-transform duration-300 ease-out transform ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden flex flex-col`}
+          style={{ backgroundColor: '#ffffff' }}
+        >
+          <div className="flex-1 flex flex-col p-8 overflow-y-auto">
+            <div className="flex flex-col gap-6 text-technical mb-12">
               <NavLinks mobile />
             </div>
 
-            <div className="mt-auto border-t border-black/10 pt-12">
+            <div className="mt-auto border-t border-black/10 pt-8">
               {user ? (
-                <div className="flex flex-col gap-6">
-                  <span className="text-slate-400">{user.email}</span>
+                <div className="flex flex-col gap-4">
+                  <span className="text-xs text-slate-400 font-mono text-center mb-2">{user.email}</span>
                   <button
                     onClick={() => signOut()}
-                    className="text-technical text-red text-left"
+                    className="w-full py-4 border border-black/10 text-technical text-red hover:bg-red/5 active:scale-95 transition-all"
                   >
                     Sign Out
                   </button>
                   <button
                     onClick={() => selectPlanAndPay('survey')}
-                    className="w-full bg-black text-white py-6 text-technical hover:bg-red transition-all"
+                    className="w-full bg-black text-white py-4 text-technical hover:bg-red active:scale-95 transition-all"
                   >
                     Verify Status
                   </button>
                 </div>
               ) : (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
                   <button
                     onClick={() => setShowAuthModal(true)}
-                    className="text-technical text-left"
+                    className="w-full py-4 border border-black/10 text-technical hover:bg-black/5 active:scale-95 transition-all"
                   >
                     Sign In
                   </button>
                   <button
                     onClick={() => selectPlanAndPay('survey')}
-                    className="w-full bg-black text-white py-6 text-technical hover:bg-red transition-all"
+                    className="w-full bg-black text-white py-4 text-technical hover:bg-red active:scale-95 transition-all"
                   >
                     Verify Status
                   </button>
@@ -214,30 +223,32 @@ const AppContent: React.FC = () => {
       </nav>
 
       <main className="pt-16 md:pt-20 min-h-screen">
-        <Suspense fallback={<LoadingSpinner />}>
-          {state === 'landing' && <LandingPage onStart={() => selectPlanAndPay('survey')} onNavigate={navigate} onSelectPlan={selectPlanAndPay} />}
-          {state === 'how-it-works' && <HowItWorksPage onStart={() => selectPlanAndPay('survey')} onSelectPlan={selectPlanAndPay} />}
-          {state === 'standards' && <StandardsPage onStart={() => selectPlanAndPay('survey')} />}
-          {state === 'about' && <AboutPage />}
-          {state === 'news' && <NewsPage />}
+        <div key={state} className="fade-enter">
+          <Suspense fallback={<LoadingSpinner />}>
+            {state === 'landing' && <LandingPage onStart={() => selectPlanAndPay('survey')} onNavigate={navigate} onSelectPlan={selectPlanAndPay} />}
+            {state === 'how-it-works' && <HowItWorksPage onStart={() => selectPlanAndPay('survey')} onSelectPlan={selectPlanAndPay} />}
+            {state === 'standards' && <StandardsPage onStart={() => selectPlanAndPay('survey')} />}
+            {state === 'about' && <AboutPage />}
+            {state === 'news' && <NewsPage />}
 
-          {state === 'calculating' && <RiskCalculator onComplete={handleQuizComplete} />}
-          {state === 'result' && results && (
-            <ResultPage results={results} onFix={() => selectPlanAndPay('auditor')} />
-          )}
-          {state === 'payment' && selectedPlan && (
-            <PaymentModal
-              plan={selectedPlan}
-              onSuccess={handlePaymentSuccess}
-              onCancel={() => navigate('landing')}
-            />
-          )}
-          {state === 'chat' && <AuditorChat />}
-        </Suspense>
+            {state === 'calculating' && <RiskCalculator onComplete={handleQuizComplete} />}
+            {state === 'result' && results && (
+              <ResultPage results={results} onFix={() => selectPlanAndPay('auditor')} />
+            )}
+            {state === 'payment' && selectedPlan && (
+              <PaymentModal
+                plan={selectedPlan}
+                onSuccess={handlePaymentSuccess}
+                onCancel={() => navigate('landing')}
+              />
+            )}
+            {state === 'chat' && <AuditorChat />}
+          </Suspense>
 
-        {/* Legal pages are lightweight, kept eager for now to avoid named-export complexity in lazy load unless refactored */}
-        {state === 'terms' && <TermsOfService onBack={() => navigate('landing')} />}
-        {state === 'privacy' && <PrivacyPolicy onBack={() => navigate('landing')} />}
+          {/* Legal pages are lightweight, kept eager for now to avoid named-export complexity in lazy load unless refactored */}
+          {state === 'terms' && <TermsOfService onBack={() => navigate('landing')} />}
+          {state === 'privacy' && <PrivacyPolicy onBack={() => navigate('landing')} />}
+        </div>
       </main>
 
       {showAuthModal && (
