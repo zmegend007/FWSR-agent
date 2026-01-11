@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppState } from '../types';
 import { gemini } from '../services/geminiService';
+import { GlowingEffect } from './ui/glowing-effect';
 
 interface Props {
   onStart: () => void;
@@ -57,87 +58,99 @@ const LandingPage: React.FC<Props> = ({ onStart, onNavigate, onSelectPlan }) => 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 -mt-20 md:-mt-32">
 
             {/* Plan 1 */}
-            <div className="bg-white border border-black/5 p-6 md:p-12 shadow-2xl flex flex-col justify-between">
-              <div>
-                <p className="text-technical text-slate-400 mb-2">Tier 1 / €19</p>
-                <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8">Self-Assessment</h3>
-                <p className="text-sm text-slate-500 font-light leading-relaxed mb-10">
-                  A technical check to identify which of the 19 standards you currently meet and where your documentation gaps are.
-                  Best for brands that just need a starting point.
-                </p>
-                <ul className="space-y-4 mb-12">
-                  <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                    <span className="w-4 h-[1px] bg-red"></span> Gap Analysis
-                  </li>
-                  <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                    <span className="w-4 h-[1px] bg-red"></span> Eligibility Report
-                  </li>
-                </ul>
-              </div>
-              <div className="space-y-3">
-                <button
-                  onClick={() => onSelectPlan('survey')}
-                  className="w-full py-6 bg-black text-white text-technical hover:bg-red transition-all"
-                >
-                  Start Assessment
-                </button>
-                <button
-                  onClick={() => setShowReportPreview(true)}
-                  className="w-full py-3 border border-black/10 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black hover:border-black transition-all"
-                >
-                  Preview Sample Report
-                </button>
+            <div className="relative h-full rounded-sm border border-black/5 bg-white p-6 md:p-12 shadow-2xl flex flex-col justify-between overflow-hidden">
+              <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
+              <div className="relative z-10 flex flex-col justify-between h-full">
+                <div>
+                  <p className="text-technical text-slate-400 mb-2">Tier 1 / €19</p>
+                  <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8">Self-Assessment</h3>
+                  <p className="text-sm text-slate-500 font-light leading-relaxed mb-10">
+                    A technical check to identify which of the 19 standards you currently meet and where your documentation gaps are.
+                    Best for brands that just need a starting point.
+                  </p>
+                  <ul className="space-y-4 mb-12">
+                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
+                      <span className="w-4 h-[1px] bg-red"></span> Gap Analysis
+                    </li>
+                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
+                      <span className="w-4 h-[1px] bg-red"></span> Eligibility Report
+                    </li>
+                  </ul>
+                </div>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => onSelectPlan('survey')}
+                    className="w-full py-6 bg-black text-white text-technical hover:bg-red transition-all"
+                  >
+                    Start Assessment
+                  </button>
+                  <button
+                    onClick={() => setShowReportPreview(true)}
+                    className="w-full py-3 border border-black/10 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black hover:border-black transition-all"
+                  >
+                    Preview Sample Report
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Plan 2 */}
-            <div className="bg-slate-50 border border-black/5 p-6 md:p-12 shadow-2xl flex flex-col justify-between">
-              <div>
-                <p className="text-technical text-red mb-2">Tier 2 / €89</p>
-                <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8">Compliance Workshop</h3>
-                <p className="text-sm text-slate-500 font-light leading-relaxed mb-8 md:mb-10">
-                  Interactive workspace with our Auditor. Upload your current documents and receive real-time technical feedback on how to fix them for the 2026 cycle.
-                </p>
-                <ul className="space-y-4 mb-8 md:mb-12">
-                  <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                    <span className="w-4 h-[1px] bg-red"></span> AI Auditor Access
-                  </li>
-                  <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                    <span className="w-4 h-[1px] bg-red"></span> Document Reviews
-                  </li>
-                </ul>
+            <div className="relative h-full rounded-sm border border-black/5 bg-slate-50 p-6 md:p-12 shadow-2xl flex flex-col justify-between overflow-hidden">
+              <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
+              <div className="relative z-10 flex flex-col justify-between h-full">
+                <div>
+                  <p className="text-technical text-red mb-2">Tier 2 / €89</p>
+                  <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8">Compliance Workshop</h3>
+                  <p className="text-sm text-slate-500 font-light leading-relaxed mb-8 md:mb-10">
+                    Interactive workspace with our Auditor. Upload your current documents and receive real-time technical feedback on how to fix them for the 2026 cycle.
+                  </p>
+                  <ul className="space-y-4 mb-8 md:mb-12">
+                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
+                      <span className="w-4 h-[1px] bg-red"></span> AI Auditor Access
+                    </li>
+                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
+                      <span className="w-4 h-[1px] bg-red"></span> Document Reviews
+                    </li>
+                  </ul>
+                </div>
+                <button
+                  onClick={() => onSelectPlan('chat')}
+                  className="w-full py-6 border border-black text-technical hover:bg-black hover:text-white transition-all"
+                >
+                  Access Workspace
+                </button>
               </div>
-              <button
-                onClick={() => onSelectPlan('chat')}
-                className="w-full py-6 border border-black text-technical hover:bg-black hover:text-white transition-all"
-              >
-                Access Workspace
-              </button>
             </div>
 
             {/* Plan 3 */}
-            <div className="bg-black text-white p-6 md:p-12 shadow-2xl flex flex-col justify-between border-t-4 border-red">
-              <div>
-                <p className="text-technical text-red mb-2">Tier 3 / €595</p>
-                <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8 italic">Full Managed Audit</h3>
-                <p className="text-sm text-slate-400 font-light leading-relaxed mb-8 md:mb-10">
-                  We handle the entire dossier preparation. Our system drafts your Social CoCs, Material Lists, and RSLs to ensure 100% acceptance.
-                </p>
-                <ul className="space-y-4 mb-8 md:mb-12">
-                  <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                    <span className="w-4 h-[1px] bg-red"></span> Full Policy Drafting
-                  </li>
-                  <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
-                    <span className="w-4 h-[1px] bg-red"></span> Guaranteed Compliance
-                  </li>
-                </ul>
+            <div className="relative h-full rounded-sm border-t-4 border-t-red border-black/5 bg-black text-white p-6 md:p-12 shadow-2xl flex flex-col justify-between overflow-hidden">
+
+              {/* Note: GlowingEffect might need 'variant="white"' or custom css for black bg clarity, trying default first */}
+              <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
+
+              <div className="relative z-10 flex flex-col justify-between h-full">
+                <div>
+                  <p className="text-technical text-red mb-2">Tier 3 / €595</p>
+                  <h3 className="text-xl md:text-3xl font-heading font-black uppercase mb-6 md:mb-8 italic">Full Managed Audit</h3>
+                  <p className="text-sm text-slate-400 font-light leading-relaxed mb-8 md:mb-10">
+                    We handle the entire dossier preparation. Our system drafts your Social CoCs, Material Lists, and RSLs to ensure 100% acceptance.
+                  </p>
+                  <ul className="space-y-4 mb-8 md:mb-12">
+                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
+                      <span className="w-4 h-[1px] bg-red"></span> Full Policy Drafting
+                    </li>
+                    <li className="text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
+                      <span className="w-4 h-[1px] bg-red"></span> Guaranteed Compliance
+                    </li>
+                  </ul>
+                </div>
+                <button
+                  onClick={() => onSelectPlan('auditor')}
+                  className="w-full py-6 bg-red text-white text-technical hover:bg-white hover:text-black transition-all"
+                >
+                  Hire Auditor
+                </button>
               </div>
-              <button
-                onClick={() => onSelectPlan('auditor')}
-                className="w-full py-6 bg-red text-white text-technical hover:bg-white hover:text-black transition-all"
-              >
-                Hire Auditor
-              </button>
             </div>
 
           </div>
